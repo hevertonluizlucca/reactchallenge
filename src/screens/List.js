@@ -62,6 +62,10 @@ export default class List extends Component {
         this.setState({ students }, this.saveStudents)
     }
 
+    editStudent = id => {
+        
+    }
+
     render() {
         const today = moment().locale('pt-br').format('dddd, D [de] MMMM [de] YYYY')
         return (
@@ -79,7 +83,7 @@ export default class List extends Component {
                 <View style={styles.studentList}>
                     <FlatList data={this.state.students}
                         keyExtractor={item => `${item.id}`}
-                        renderItem={({item}) => <Student {...item} onDelete={this.deleteTask} />} />
+                        renderItem={({item}) => <Student {...item} onDelete={this.deleteStudent} onEdit={this.editStudent} />} />
                 </View>
                 <TouchableOpacity style={styles.addButton} 
                     activeOpacity={0.7}

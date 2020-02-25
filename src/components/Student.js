@@ -22,10 +22,11 @@ export default props => {
 
     const getRightContent = () => {
         return (
-            <TouchableOpacity style={styles.right}
-                onPress={() => props.onDelete && props.onDelete(props.id)}>
-                <Icon name="trash" size={30} color='#FFF' />
-            </TouchableOpacity>
+            <View style={styles.right}>
+                <Icon name="pencil" size={20} color='#FFF'
+                    style={styles.swippedIcon} />
+                <Text style={styles.swippedText}>Editar</Text>
+            </View>
         )
     }
 
@@ -33,8 +34,8 @@ export default props => {
         return (
             <View style={styles.left}>
                 <Icon name="trash" size={20} color='#FFF'
-                    style={styles.excludeIcon} />
-                <Text style={styles.excludeText}>Excluir</Text>
+                    style={styles.swippedIcon} />
+                <Text style={styles.swippedText}>Excluir</Text>
             </View>
         )
     }
@@ -43,6 +44,7 @@ export default props => {
         <Swipeable 
             renderRightActions={getRightContent}
             renderLeftActions={getLeftContent}
+            onSwipeableRightOpen={() => props.onEdit && props.onEdit(props.id)}
             onSwipeableLeftOpen={() => props.onDelete && props.onDelete(props.id)}>
             <View style={styles.container}>
                 <View>
@@ -75,11 +77,11 @@ const styles = StyleSheet.create({
         fontSize: 12
     },
     right: {
-        backgroundColor: 'red',
+        flex: 1,
+        backgroundColor: 'green',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        paddingHorizontal: 20
+        justifyContent: 'flex-end'
     },
     left: {
         flex: 1,
@@ -87,10 +89,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    excludeIcon: {
+    swippedIcon: {
         marginLeft: 10
     },
-    excludeText: {
+    swippedText: {
         fontFamily: commonStyles.fontFamily,
         color: '#FFF',
         fontSize: 20,

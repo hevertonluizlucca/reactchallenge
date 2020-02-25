@@ -106,6 +106,11 @@ export default class AddStudent extends Component {
     }
 
     render() {
+
+        const validations = []
+        validations.push(this.state.nomeEstudante && this.state.nomeEstudante.length <=100)
+
+        const validForm = validations.reduce((t, a) => t && a)    
         return (
             <Modal transparent={true} visible={this.props.isVisible}
                 onRequestClose={this.props.onCancel}
@@ -169,7 +174,8 @@ export default class AddStudent extends Component {
                             <TouchableOpacity onPress={this.props.onCancel}>
                                 <Text style={styles.button}>Cancelar</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={this.save}>
+                            <TouchableOpacity onPress={this.save}
+                                disabled = {!validForm}>
                                 <Text style={styles.button}>Salvar</Text>
                             </TouchableOpacity>
                         </View>
