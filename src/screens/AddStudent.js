@@ -105,10 +105,28 @@ export default class AddStudent extends Component {
         return datePicker
     }
 
+    onlyNumber = (  numberVal ) => {
+        return numberVal.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, '');
+    };
+
     render() {
 
         const validations = []
-        validations.push(this.state.nomeEstudante && this.state.nomeEstudante.length <=100)
+        validations.push(this.state.nomeEstudante && this.state.nomeEstudante.trim.length <=100)
+        validations.push(this.state.dateNasc && this.state.dateNasc < new Date())
+        validations.push(this.state.serie && this.state.serie >= 1 && this.state.serie <= 9)
+       // cep valido validations.push(this.state.cep && this.state.cep.length == 8)
+        validations.push(this.state.logradouro && this.state.logradouro.length <=120)
+       // apenas numeros validations.push(this.state.numero && )
+        validations.push(this.state.complemento && this.state.complemento.length <=50)
+        validations.push(this.state.bairro && this.state.bairro.length <=100)
+        validations.push(this.state.cidade)    
+        validations.push(this.state.estado)
+        validations.push(this.state.nomeMae && this.state.nomeMae.trim.length <=100)
+        //  cpf valido validations.push(this.state.cpfMae && this.state.cpf.length <=100)
+        // data de pagamento valida validations.push(this.state.datePag)
+
+
 
         const validForm = validations.reduce((t, a) => t && a)    
         return (
@@ -124,6 +142,7 @@ export default class AddStudent extends Component {
                         <Text style={styles.header}>Novo estudante</Text>
                         <TextInput style={styles.input} 
                             placeholder="Informe o nome do estudante"
+                            maxLength={100}
                             onChangeText={nomeEstudante => this.setState({ nomeEstudante })}
                             value={this.state.nomeEstudante} />
                         {this.getDatePickerNasc()}
@@ -134,22 +153,29 @@ export default class AddStudent extends Component {
                         <Text style={styles.header}>Endereço</Text> 
                         <TextInput style={styles.input} 
                             placeholder="CEP"
+                            textContentType="postalCode"
                             onChangeText={cep => this.setState({ cep })}
                             value={this.state.cep} />
                         <TextInput style={styles.input} 
                             placeholder="Logradouro"
+                            maxLength={120}
                             onChangeText={logradouro => this.setState({ logradouro })}
                             value={this.state.logradouro} />
                         <TextInput style={styles.input} 
                             placeholder="Número"
-                            onChangeText={numero => this.setState({ numero })}
-                            value={this.state.numero} />
+                            keyboardType="numeric"
+                            onChangeText={numero => {
+                                this.setState({numero: this.onlyNumber(numero)});
+                                value = this.state.numero
+                            } }/>
                         <TextInput style={styles.input} 
                             placeholder="Complemento"
+                            maxLength={50}
                             onChangeText={complemento => this.setState({ complemento })}
                             value={this.state.complemento} />
                         <TextInput style={styles.input} 
                             placeholder="Bairro"
+                            maxLength={100}
                             onChangeText={bairro => this.setState({ bairro })}
                             value={this.state.bairro} />
                         <TextInput style={styles.input} 
@@ -163,6 +189,7 @@ export default class AddStudent extends Component {
                         <Text style={styles.header}>Dados da mãe</Text> 
                         <TextInput style={styles.input} 
                             placeholder="Nome da mãe"
+                            maxLength={100}
                             onChangeText={nomeMae => this.setState({ nomeMae })}
                             value={this.state.nomeMae} />
                         <TextInput style={styles.input} 
@@ -176,7 +203,7 @@ export default class AddStudent extends Component {
                             </TouchableOpacity>
                             <TouchableOpacity onPress={this.save}
                                 disabled = {!validForm}>
-                                <Text style={styles.button}>Salvar</Text>
+                                <Text style={[styles.button, validForm ? {} : {backgroundColor:'#AAA'}]}>Salvar</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -222,7 +249,12 @@ const styles = StyleSheet.create({
     button: {
         margin: 20,
         marginRight: 30,
-        color: commonStyles.colors.today
+        color:'white',
+        width: 120,
+        height: 20,
+        borderRadius: 10,
+        textAlign: 'center',
+        backgroundColor: commonStyles.colors.today
     },
     date: {
         fontFamily: commonStyles.fontFamily,

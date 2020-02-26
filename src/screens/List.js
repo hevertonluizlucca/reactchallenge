@@ -6,7 +6,6 @@ import {
     StyleSheet,
     FlatList,
     TouchableOpacity,
-    Platform,
     Alert
 } from 'react-native'
 
@@ -71,6 +70,7 @@ export default class List extends Component {
         return (
             <View style={styles.container}>
                 <AddStudent isVisible={this.state.showAddStudent}
+                
                     onCancel={() => this.setState({ showAddStudent: false })}
                     onSave={this.addStudent} />
                 <ImageBackground source={todayImage}
